@@ -1,0 +1,6 @@
+@SafariZone_Gateway_HostAddress = http://localhost:5287
+
+GET {{SafariZone_Gateway_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

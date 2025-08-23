@@ -1,1 +1,57 @@
+# --------- Global ---------
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.rsuser
+*.dbmdl
+*.jfm
+*.cache
+*.log
+*.lock
+*.tmp
 .DS_Store
+Thumbs.db
+
+# --------- .NET ---------
+bin/
+obj/
+out/
+artifacts/
+*.dll
+*.exe
+*.pdb
+
+# Ignore user secrets & configs
+**/appsettings.Development.json
+**/appsettings.Local.json
+**/appsettings.*.json
+!**/appsettings.json   # keep template
+
+# Entity Framework migrations (optional)
+**/Migrations/
+
+# NuGet
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+.dotnet-tools/
+
+# --------- Node/Frontend ---------
+node_modules/
+dist/
+build/
+.env
+*.local
+*.env.*
+
+# --------- Docker ---------
+docker-compose.override.yml
+.docker/
+*.dockerignore
+
+# --------- Logs ---------
+*.log
+logs/
