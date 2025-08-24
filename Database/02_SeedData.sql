@@ -1,4 +1,3 @@
-
 INSERT INTO Roles (RoleName, Description)
 VALUES
   ( 'Admin', 'System administrator with full access'),
