@@ -2,7 +2,6 @@ using System.Text;
 using AuthService.Core.Interfaces;
 using AuthService.Core.Services;
 using AuthService.Infrastructure.Persistence;
-using AuthService.Infrastructure.Providers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -19,12 +18,16 @@ builder.Services.AddAuthentication()
     .AddJwtBearer("AzureAd", options =>
     {
         options.Authority = $"{azure["Instance"]}{azure["TenantId"]}/v2.0";
-        options.Audience = azure["Audience"];            // api://... from App Registration
+        options.Audience = azure["Audience"];
+        options.MapInboundClaims = false;
         options.TokenValidationParameters = new()
         {
             ValidateIssuer = true,
-            // if you use multi-tenant, you might relax issuer validation:
-            // ValidIssuers = new[] { $"https://login.microsoftonline.com/{azure["TenantId"]}/v2.0" }
+            ValidIssuers =
+            [
+                $"https://sts.windows.net/{azure["TenantId"]}/", // for v1 tokens
+                $"https://login.microsoftonline.com/{azure["TenantId"]}/v2.0" // for v2 tokens
+            ],
         };
     });
 
@@ -59,9 +62,9 @@ builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthService, TouristAuthService>();
-builder.Services.AddScoped<AadTokenValidator>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddDbContext<AuthDbContext>();
+builder.Services.AddScoped<IAadAuthService, AadAuthService>();
 
 var app = builder.Build();
 

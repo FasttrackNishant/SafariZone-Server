@@ -28,10 +28,13 @@ public class TokenService : ITokenService
         var token = new JwtSecurityToken(
             issuer: _issuer,
             audience: _audience,
-            claims: new[] { new Claim("sub", subject) }.Concat(claims),
+            claims: claims,
             expires: DateTime.UtcNow.AddMinutes(_expiryMinutes),
             signingCredentials: creds
         );
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+    
+    public int GetExpiryMinutes() => _expiryMinutes;
+
 }

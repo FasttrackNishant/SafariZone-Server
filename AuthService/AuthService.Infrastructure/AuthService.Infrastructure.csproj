@@ -12,6 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\SafariZone.Server.Common\SafariZone.Server.Common.csproj" />
       <ProjectReference Include="..\AuthService.Core\AuthService.Core.csproj" />
     </ItemGroup>
 
