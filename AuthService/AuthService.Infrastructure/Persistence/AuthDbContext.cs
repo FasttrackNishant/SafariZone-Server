@@ -7,4 +7,5 @@ public class AuthDbContext(DbContextOptions<AuthDbContext> options) : DbContext(
 {
     public DbSet<User> Users => Set<User>();
     public DbSet<Role> Roles => Set<Role>();
+    public DbSet<Profile> Profiles => Set<Profile>();
 }

@@ -65,6 +65,7 @@ builder.Services.AddScoped<IAuthService, TouristAuthService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddDbContext<AuthDbContext>();
 builder.Services.AddScoped<IAadAuthService, AadAuthService>();
+builder.Services.AddScoped<IProfileRepository, ProfileRepository > ();
 
 var app = builder.Build();
 

@@ -21,6 +21,8 @@ public class AadAuthService(ITokenService tokenService, IUserRepository userRepo
                     ?? aadPrincipal.FindFirst("unique_name")?.Value
                     ?? aadPrincipal.FindFirst(ClaimTypes.Email)?.Value;
 
+        var name = aadPrincipal.FindFirst("name")?.Value;
+
         var roles = aadPrincipal.FindAll("roles").Select(c => c.Value)
             .Concat(aadPrincipal.FindAll(ClaimTypes.Role).Select(c => c.Value))
             .Distinct()
@@ -28,14 +30,15 @@ public class AadAuthService(ITokenService tokenService, IUserRepository userRepo
 
         if (!roles.Any())
             return null;
-
+        
         // Sync user to DB
-        await userRepository.GetOrCreateAadUserAsync(sub, email, roles);
+         userRepository.GetOrCreateAadUserAsync(sub, email, roles);
 
         var claims = new List<Claim>
         {
             new Claim("id", sub),
-            new Claim("email", email)
+            new Claim("email", email),
+            new Claim(type:"name",name)
         };
 
         claims.AddRange(roles.Select(r => new Claim("role", r)));

@@ -53,9 +53,16 @@ public class AuthController : ControllerBase
     public async Task<ActionResult<ApiResponse<TokenResponse>>> ExchangeFromAad()
     {
         var result = await _aadAuthService.ExchangeTokenAsync(HttpContext.User);
-        if (result is  null)
+        if (result is null)
             return Unauthorized(ApiResponse<TokenResponse>.Unauthorized("Exchange failed"));
         var tokenResponse = new TokenResponse { AccessToken = result.AccessToken, ExpiresAt = result.ExpiresAt };
         return Ok(ApiResponse<TokenResponse>.Ok(tokenResponse, "Token exchange successful"));
+    }
+
+    [HttpPost("verify")]
+    [Authorize(AuthenticationSchemes = "Internal")]
+    public IActionResult VerifyToken()
+    {
+        return Ok(new { Verified = true });
     }
 }
