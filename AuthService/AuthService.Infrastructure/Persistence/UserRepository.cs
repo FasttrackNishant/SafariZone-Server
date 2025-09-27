@@ -67,6 +67,7 @@ public class UserRepository(AuthDbContext db, ILogger<UserRepository> logger) : 
                     existingUser.IsActive = true;
                     existingUser.TermsVersion = newUser.TermsVersion;
                     existingUser.TermsAgreedOn = DateTime.UtcNow;
+                    existingUser.RoleId = newUser.RoleId;
 
                     var (hash, salt) = PasswordHelper.HashPassword(newUser.PasswordHash);
                     existingUser.PasswordHash = hash;
@@ -95,6 +96,7 @@ public class UserRepository(AuthDbContext db, ILogger<UserRepository> logger) : 
             newUser.Salt = newSalt;
             newUser.IsActive = true;
             newUser.TermsAgreedOn = DateTime.UtcNow;
+   
 
             await db.Users.AddAsync(newUser);
             await db.SaveChangesAsync();

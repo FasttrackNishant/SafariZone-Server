@@ -21,7 +21,7 @@ public class ApiResponse<T>
     public static ApiResponse<T> Ok(T data, string message = "Success") =>
         new((int)ApiStatusCode.Ok, true, message, data);
 
-    public static ApiResponse<T> Created(T data, string message = "Resource created") =>
+    public static ApiResponse<T> Created(T? data, string message = "Resource created") =>
         new((int)ApiStatusCode.Created, true, message, data);
 
     // --- ❌ Helpers for Failures ---

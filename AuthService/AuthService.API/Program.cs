@@ -58,6 +58,19 @@ builder.Services.AddAuthorization(options =>
         configurePolicy: policy => policy.AddAuthenticationSchemes("Internal").RequireAuthenticatedUser());
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+        "React", policy =>
+        {
+            policy.AllowAnyHeader();
+            policy.AllowAnyMethod();
+            policy.WithOrigins("http://localhost:5173"); // front-end origin
+            policy.AllowCredentials(); // if you use cookies/auth headers
+        });
+});
+
+
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ITokenService, TokenService>();
@@ -65,7 +78,7 @@ builder.Services.AddScoped<IAuthService, TouristAuthService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddDbContext<AuthDbContext>();
 builder.Services.AddScoped<IAadAuthService, AadAuthService>();
-builder.Services.AddScoped<IProfileRepository, ProfileRepository > ();
+builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
 
 var app = builder.Build();
 
@@ -83,6 +96,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseCors("React");
 app.MapControllers();
 
 app.Run();

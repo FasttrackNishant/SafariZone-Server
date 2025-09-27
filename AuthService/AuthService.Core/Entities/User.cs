@@ -7,8 +7,8 @@ public class User
     public int UserId { get; set; }
     public string Email { get; set; } = string.Empty;
     public string? AadId { get; set; }
-    public string PasswordHash { get; set; } = string.Empty;
-    public string Salt { get; set; } = string.Empty;
+    public string? PasswordHash { get; set; } 
+    public string? Salt { get; set; } 
     public int RoleId { get; set; }
     public bool IsActive { get; set; }
     public bool HasAgreedTerms { get; set; }

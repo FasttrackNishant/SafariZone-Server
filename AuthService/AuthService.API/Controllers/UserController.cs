@@ -18,7 +18,8 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> SignUpUser([FromBody] SignUpRequestDto request)
+    [Route("signup-user")]
+    public async Task<ActionResult<ApiResponse<string>>> SignUpUser([FromBody] SignUpRequestDto request)
     {
         try
         {
@@ -36,16 +37,16 @@ public class UserController : ControllerBase
 
             if (result.Success)
             {
-                return Ok(ApiResponse<string>.Created("User created successfully"));
+                return ApiResponse<string>.Created(null,message: "User created successfully");
             }
             else
             {
-                return BadRequest(ApiResponse<string>.Fail(result.ErrorMessage));
+                return ApiResponse<string>.Fail(result.ErrorMessage);
             }
         }
         catch (Exception ex)
         {
-            return StatusCode(500, ApiResponse<string>.Fail($"Something went wrong: {ex.Message}"));
+            return ApiResponse<string>.Fail($"Something went wrong: {ex.Message}");
         }
     }
 }
